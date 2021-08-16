@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is a wrapper for LineBuffer, 
+ * which contains a list of buffers from which lines are read in turn.
+ */
 public class BatchLineBuffer {
     private ArrayList<LineBuffer> lBuffers;
     private int pointer;
@@ -66,7 +70,13 @@ public class BatchLineBuffer {
         checkPointer();
     }
 
-
+    /**
+     * This creates a LineBuffer instances from list of file that was given
+     * 
+     * @param files list of files from which the LineBuffer is created
+     * @return created BatchLineBuffer
+     * @throws IOException
+     */
     public static BatchLineBuffer makeFromFilesList(List<File> files) throws IOException {
         BatchLineBuffer linesBuffer = new BatchLineBuffer();
         linesBuffer.pointer = 0;

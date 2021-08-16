@@ -5,6 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+
+/**
+ * This class is a wrapper on top of BufferedReader that contains the last readed string
+ */
 public class LineBuffer {
 
     private BufferedReader reader;
