@@ -8,8 +8,9 @@ import com.example.ExternalSort.ExternalSort;
 
 public class App
 {
+    //TODO: make support for relative paths
     private static void printUsageText() {
-        System.out.println("Usage: externalsort inputFile [workingDir]");
+        System.out.println("Usage: externalsort inputFile [workingDir]\nAll paths are specified as absolute.");
     }
 
     public static void main(String[] args) throws IOException {
