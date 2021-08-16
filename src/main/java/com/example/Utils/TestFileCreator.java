@@ -5,11 +5,11 @@ import java.io.FileWriter;
 
 public class TestFileCreator {
     public static void CreateTestFile(int amountOfRows, int amountOfSymbolsInRow, String filePath){
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         StringBuilder resultString = new StringBuilder();
         Random rnd = new Random();
         int lowerBound = 10;
-
+        
         for(int row = 0; row < amountOfRows; row++){
             StringBuilder str = new StringBuilder();
             for (int symbol = 0; symbol < amountOfSymbolsInRow; symbol++){
