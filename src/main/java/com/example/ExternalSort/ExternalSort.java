@@ -2,8 +2,8 @@ package com.example.ExternalSort;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.TreeSet;
 import com.example.ExternalSort.Utils.FileUtils;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExternalSort {
@@ -20,25 +20,28 @@ public class ExternalSort {
     }
 
     
-
     public File sortAndMerge() {
         return sortAndMerge(DEFAULT_OUT_FILE_NAME);
     }
 
     public File sortAndMerge(String outFileName) {
         List<File> tmpFiles = FileUtils.sliceBaseFileToBlocks(baseFile, workingDir);
-        TreeSet<String> outData = new TreeSet<>();
+        List<String> outData = new ArrayList<>();
         File outputFile = new File(workingDir.toString(), outFileName);
 
         try {
             BatchLineBuffer linesReader = getTmpFilesLineBuffer(tmpFiles);
             String bufStr;
+            
 
             while(!linesReader.isEmpty()) {
                 long currentBlockSize = 0;
+
                 while(currentBlockSize < blockSize && (bufStr = linesReader.getNextLine()) != null) {
-                    outData.add(bufStr + "\n");
-                    currentBlockSize += Utils.MemoryUtils.estimateStringSize(bufStr);
+                    if(!linesReader.checkStringInHashes(bufStr)) {
+                        outData.add(bufStr + "\n");
+                        currentBlockSize += Utils.MemoryUtils.estimateStringSize(bufStr);
+                    }
                 }
                 Utils.FileUtils.writeToFile(outputFile, String.join("", outData), true);
                 outData.clear();

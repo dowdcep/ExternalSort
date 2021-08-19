@@ -19,7 +19,7 @@ public class AppTest
     @Test
     public void externalSortFileTest()
     {
-        String expectedString = "abcdefg";
+        String expectedString = "adbcefg";
         File baseFile = new File("src\\test\\java\\com\\example\\testfile1.txt");
         ExternalSort sort = new ExternalSort(baseFile, Paths.get(baseFile.getParent()));
         File results = sort.sortAndMerge();

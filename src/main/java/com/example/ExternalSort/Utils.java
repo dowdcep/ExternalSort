@@ -154,6 +154,16 @@ public class Utils {
             writer.close();
         }
 
+        public static void writeToFile(File file, ArrayList<byte[]> data) throws IOException {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+            String str;
+            for(byte[] line : data) {
+                str = new String(line) + "\n";
+                writer.write(str);
+            }
+            writer.close();
+        }
+
         /**
          * Returns files located that are in the given path
          * 

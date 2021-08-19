@@ -10,11 +10,13 @@ import java.util.List;
  */
 public class BatchLineBuffer {
     private ArrayList<LineBuffer> lBuffers;
-    private int pointer;
+    private int pointer, hashPointer;
+    private int[] hashBuffer;
 
     public BatchLineBuffer(ArrayList<LineBuffer> buffers) {
         lBuffers = buffers;
-        pointer = 0;
+        pointer = hashPointer = 0;
+        hashBuffer = new int[buffers.size()];
     }
     
     public BatchLineBuffer() {
@@ -25,6 +27,7 @@ public class BatchLineBuffer {
     public boolean isEmpty() {
         return lBuffers.size() == 0;
     }
+
 
     public String getNextLine() throws IOException {
 
@@ -65,11 +68,26 @@ public class BatchLineBuffer {
             pointer = 0;
     }
 
+    private void checkHashPointer() {
+        hashPointer = pointer == 0 ? lBuffers.size() - 1: pointer ; 
+    }
+
     private void movePointer() {
         pointer++;
         checkPointer();
     }
+    
+    public boolean checkStringInHashes(String s) {
+        int sHash = s.hashCode();
 
+        for (int hash : hashBuffer) {
+            if(sHash == hash)
+                return true;
+        }
+        hashBuffer[hashPointer] = sHash;
+        checkHashPointer();
+        return false;
+    }
     /**
      * This creates a LineBuffer instances from list of file that was given
      * 
@@ -80,6 +98,7 @@ public class BatchLineBuffer {
     public static BatchLineBuffer makeFromFilesList(List<File> files) throws IOException {
         BatchLineBuffer linesBuffer = new BatchLineBuffer();
         linesBuffer.pointer = 0;
+        linesBuffer.hashBuffer = new int[files.size()];
         for(File file : files) {
             linesBuffer.lBuffers.add(new LineBuffer(file));
         }
